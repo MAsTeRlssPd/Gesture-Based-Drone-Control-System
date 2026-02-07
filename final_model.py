@@ -6,8 +6,6 @@ import time
 import os
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
-
-# --- CONFIG ---
 HAND_CONNECTIONS = [
     (0, 1), (1, 2), (2, 3), (3, 4), (0, 5), (5, 6), (6, 7), (7, 8),
     (9, 10), (10, 11), (11, 12), (13, 14), (14, 15), (15, 16),
@@ -16,8 +14,6 @@ HAND_CONNECTIONS = [
 
 if not os.path.exists("drone_photos"):
     os.makedirs("drone_photos")
-
-# 1. Load the Brain
 with open('gesture_model.pkl', 'rb') as f:
     data = pickle.load(f)
     model = data['model'] if isinstance(data, dict) else data
@@ -33,7 +29,6 @@ detector = vision.HandLandmarker.create_from_options(options)
 
 cap = cv2.VideoCapture(0)
 
-# --- STATE VARIABLES ---
 is_flying = False       
 lock_timer = 0          
 last_photo_time = 0     
@@ -51,14 +46,12 @@ while cap.isOpened():
 
     current_time = time.time()
 
-    # --- UPDATED: PERMANENT STATUS LOGIC ---
-    # This stays consistent even if no hand is detected
     if is_flying:
         status_text = "ACTIVE: FLYING"
-        status_color = (0, 255, 0) # Green
+        status_color = (0, 255, 0)
     else:
         status_text = "LOCKED: Perform TAKEOFF"
-        status_color = (0, 0, 255) # Red
+        status_color = (0, 0, 255) 
 
     if result.hand_landmarks:
         lm = result.hand_landmarks[0]
@@ -101,7 +94,6 @@ while cap.isOpened():
                         cv2.FONT_HERSHEY_SIMPLEX, 1, status_color, 2)
     
     else:
-        # No hand detected? If flying, we assume the drone is HOVERING
         if is_flying:
             cv2.putText(frame, "CMD: HOVER (No Hand)", (50, 60), 
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
@@ -111,11 +103,11 @@ while cap.isOpened():
         cv2.putText(frame, "PHOTO SAVED!", (w//2 - 100, h//2), 
                     cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 0), 3)
 
-    # Header status
     cv2.putText(frame, status_text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, status_color, 2)
 
     cv2.imshow("Drone Control", frame)
     if cv2.waitKey(1) & 0xFF == 27: break
 
 cap.release()
+
 cv2.destroyAllWindows()
