@@ -5,12 +5,8 @@ import time
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
-
-# --- CONFIG --- 
 model_path = r"C:\Users\SARTHAK\OneDrive\Desktop\drone\hand_landmarker.task"
 csv_file = "drone_dataset.csv"
-
-# KEY MAP
 KEY_MAP = {
     ord('u'): "UP",
     ord('d'): "DOWN",
@@ -24,15 +20,11 @@ KEY_MAP = {
     ord('p'): "TAKE A PICTURE",
     ord('v'): "LAND"
 }
-
-# Drawing Connections Map (Standard MediaPipe Hand Connections)
 HAND_CONNECTIONS = [
     (0, 1), (1, 2), (2, 3), (3, 4), (0, 5), (5, 6), (6, 7), (7, 8),
     (5, 9), (9, 10), (10, 11), (11, 12), (9, 13), (13, 14), (14, 15),
     (15, 16), (13, 17), (17, 18), (18, 19), (19, 20), (0, 17)
 ]
-
-# --- INITIALIZE CSV ---
 if not os.path.exists(csv_file):
     with open(csv_file, 'w', newline='') as f:
         writer = csv.writer(f)
@@ -68,7 +60,6 @@ while cap.isOpened():
         lm = result.hand_landmarks[0]
         
         # --- DRAW CONNECTED DOTS (SKELETON) ---
-        # Draw the lines first
         for conn in HAND_CONNECTIONS:
             start = lm[conn[0]]
             end = lm[conn[1]]
@@ -95,11 +86,11 @@ while cap.isOpened():
             saved_count += 1
             print(f"Recorded: {label} | Total: {saved_count}")
 
-    # UI Instructions
     cv2.putText(frame, f"SAMPLES: {saved_count}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
     cv2.imshow("Speed Collector - Connected Dots", frame)
     
     if key == 27: break
 
 cap.release()
+
 cv2.destroyAllWindows()
