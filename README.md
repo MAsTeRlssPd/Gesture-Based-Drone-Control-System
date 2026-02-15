@@ -1,43 +1,104 @@
-# ✈️ Gesture-Based Drone Control System
+✋ Gesture-Based Drone Control System (AI + Computer Vision)
 
-A real-time hand gesture recognition system that enables **touchless drone control** using a webcam, MediaPipe hand landmarks, and a machine learning classifier. The system detects hand gestures and maps them to drone-like commands such as **takeoff, land, movement, hover, flip, and photo capture**.
+A real-time AI-powered hand gesture recognition system that controls drone-like commands using a webcam. The project uses hand landmarks, machine learning, and live gesture classification to simulate intelligent drone control — including takeoff, landing, movement, speed control, and photo capture.
 
-This project includes:
+This system is built using computer vision + ML pipeline:
 
-- 📊 Dataset collection pipeline  
-- 🧠 ML gesture classification model usage  
-- 🎥 Real-time gesture inference and command execution  
+Dataset collection
 
----
+Model training
 
-## 🚀 Features
+Real-time gesture inference & command engine
 
-- Real-time hand tracking using MediaPipe Hand Landmarker
-- Gesture-based command recognition
-- Custom dataset collection tool
-- ML model prediction with confidence filtering
-- Safety lock system (Takeoff → Active → Land)
-- Gesture-triggered photo capture
-- Visual skeleton overlay for hand landmarks
-- Command cooldown & debounce logic
-- CSV dataset auto-builder
+🚀 Features
 
----
+📷 Real-time hand tracking using MediaPipe
 
-## 🎮 Supported Commands
+🧠 ML-based gesture classification (XGBoost)
 
-| Gesture Label | Action |
-|----------------|----------|
-| UP | Move up |
-| DOWN | Move down |
-| LEFT | Move left |
-| RIGHT | Move right |
-| FORWARD | Move forward |
-| BACKWARD | Move backward |
-| BACKFLIP | Perform flip |
-| HOVER | Stay in place |
-| TAKEOFF | Activate control |
-| LAND | Lock system |
-| TAKE A PICTURE | Capture frame |
+🎮 Gesture → Command mapping
 
----
+🔒 Safety lock system (Takeoff required before commands)
+
+⚡ Dynamic speed control using finger distance
+
+📸 Gesture-triggered photo capture
+
+📊 Confidence filtering to avoid false commands
+
+🧾 Custom dataset generation pipeline
+
+🛠 Tech Stack
+
+Python
+
+OpenCV
+
+MediaPipe Tasks API
+
+NumPy
+
+Pandas
+
+Scikit-learn
+
+XGBoost
+
+Pickle (model persistence)
+
+📌 Supported Gestures / Commands
+Gesture Label	Command
+UP	Move Up
+DOWN	Move Down
+LEFT	Move Left
+RIGHT	Move Right
+FORWARD	Move Forward
+BACKWARD	Move Backward
+BACKFLIP	Flip
+HOVER	Hover
+TAKEOFF	Unlock / Start
+LAND	Stop / Lock
+TAKE A PICTURE	Save frame
+SPEED	Enter speed mode
+
+📊 Model Details
+
+Algorithm: XGBoost Classifier
+
+Input Features: 63 landmark coordinates
+
+Confidence Threshold: 95%
+
+Low confidence → defaults to HOVER
+
+Reduces false triggers
+
+🎯 Key Innovations
+
+End-to-end ML pipeline (data → training → inference)
+
+Gesture confidence filtering
+
+Dynamic speed control via geometry
+
+Lock/unlock safety mechanism
+
+Gesture-triggered camera system
+
+Real-time visual feedback UI
+
+Modular design for real drone integration
+
+🏁 Use Cases
+
+Gesture-based robotics control
+
+Drone command systems
+
+Touchless interfaces
+
+Accessibility control systems
+
+AI + CV hackathon demos
+
+Smart surveillance control
